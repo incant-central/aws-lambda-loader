@@ -1,0 +1,35 @@
+{
+  "name": "@incant/incant-aws-lambda-loader",
+  "version": "0.0.0",
+  "description": "AWS Lambda loader for Incant",
+  "main": "index.js",
+  "scripts": {
+    "test": "ava test/*.spec.js",
+    "watch": "npm run test -- --watch"
+  },
+  "homepage": "https://github.com/incant-central/incant-aws-lambda-loader",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/incant-central/incant-aws-lambda-loader.git"
+  },
+  "author": {
+    "name": "Mac Heller-Ogden",
+    "email": "mac@machellerogden.com"
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "shellspec": "1.1.0"
+  },
+  "devDependencies": {
+    "ava": "2.2.0",
+    "pre-commit": "1.2.2",
+    "sinon": "7.3.2"
+  },
+  "pre-commit": [
+    "test"
+  ],
+  "engines": {
+    "node": ">=12.0.0",
+    "npm": ">=5.0.0"
+  }
+}
