@@ -7,10 +7,10 @@
     "test": "ava test/*.spec.js",
     "watch": "npm run test -- --watch"
   },
-  "homepage": "https://github.com/incant-central/incant-aws-lambda-loader",
+  "homepage": "https://github.com/incant-central/aws-lambda-loader",
   "repository": {
     "type": "git",
-    "url": "https://github.com/incant-central/incant-aws-lambda-loader.git"
+    "url": "https://github.com/incant-central/aws-lambda-loader.git"
   },
   "author": {
     "name": "Mac Heller-Ogden",
