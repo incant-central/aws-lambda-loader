@@ -18,6 +18,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
+    "aws-sdk": "^2.558.0",
     "shellspec": "1.1.0"
   },
   "devDependencies": {
