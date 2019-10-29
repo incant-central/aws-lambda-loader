@@ -1,6 +1,6 @@
 {
   "name": "@incant/incant-aws-lambda-loader",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "AWS Lambda loader for Incant",
   "main": "index.js",
   "scripts": {
