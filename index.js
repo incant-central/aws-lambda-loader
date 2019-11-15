@@ -12,7 +12,7 @@ function AwsLambdaLoader({ spec } = {}) {
 
     if (typeof fn != 'string') throw new Error('invalid lambda function');
 
-    function awsLambdaTarget(payload = {}, { name:cmdPath }) {
+    function awsLambdaTask(payload = {}, { name:cmdPath }) {
         const lambda = new AWS.Lambda({
             apiVersion: '2015-03-31',
             region
@@ -40,7 +40,13 @@ function AwsLambdaLoader({ spec } = {}) {
         }))
     }
 
-    return awsLambdaTarget;
+    return awsLambdaTask;
 }
+
+AwsLambdaLoader.study = () => [
+    'fn',
+    'region',
+    'type'
+];
 
 module.exports = AwsLambdaLoader;
