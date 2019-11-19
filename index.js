@@ -2,7 +2,10 @@
 
 const AWS = require('aws-sdk');
 
-function AwsLambdaLoader({ spec } = {}) {
+function AwsLambdaLoader(main = {}) {
+    const spec = typeof main === 'string'
+        ? { fn: main }
+        : main.spec || {};
 
     const {
         fn,
@@ -10,7 +13,7 @@ function AwsLambdaLoader({ spec } = {}) {
         type = 'RequestResponse'
     } = spec;
 
-    if (typeof fn != 'string') throw new Error('invalid lambda function');
+    if (typeof fn !== 'string') throw new Error('Invalid AWS lambda resource identifier');
 
     function awsLambdaTask(payload = {}, { name:cmdPath }) {
         const lambda = new AWS.Lambda({
@@ -29,7 +32,7 @@ function AwsLambdaLoader({ spec } = {}) {
                 try {
                     body = JSON.parse(response.body);
                 } catch {
-                    body = response.body;
+                    body = response;
                 }
             } catch (e) {
                 return reject(e);
@@ -37,7 +40,7 @@ function AwsLambdaLoader({ spec } = {}) {
             return err
                 ? reject(err)
                 : resolve(body);
-        }))
+        }));
     }
 
     return awsLambdaTask;
