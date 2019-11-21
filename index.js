@@ -5,39 +5,43 @@ const AWS = require('aws-sdk');
 function AwsLambdaLoader({ spec } = {}) {
 
     const {
-        fn,
+        resource:FunctionName,
+        apiVersion = '2015-03-31',
         region = 'us-east-1',
-        type = 'RequestResponse'
+        type:InvocationType = 'RequestResponse'
     } = spec;
 
-    if (typeof fn != 'string') throw new Error('invalid lambda function');
+    if (typeof FunctionName !== 'string') throw new Error('invalid lambda function');
 
-    function awsLambdaTask(payload = {}, { name:cmdPath }) {
-        const lambda = new AWS.Lambda({
-            apiVersion: '2015-03-31',
-            region
-        });
-        return new Promise((resolve, reject) => lambda.invoke({
-            FunctionName: fn,
-            InvocationType: type,
-            Payload: JSON.stringify(payload)
-        }, (err, data) => {
-            let response;
-            let body;
-            try {
-                response = JSON.parse(data.Payload);
+    const lambda = new AWS.Lambda({
+        apiVersion
+        region
+    });
+
+    function awsLambdaTask(payload = {}) {
+        const Payload = JSON.stringify(payload);
+
+        return new Promise((resolve, reject) =>
+            lambda.invoke({
+                FunctionName,
+                InvocationType,
+                Payload
+            }, (err, data) => {
+                if (err) return reject(err)
+                let response;
+                let body;
                 try {
-                    body = JSON.parse(response.body);
-                } catch {
-                    body = response.body;
+                    response = JSON.parse(data.Payload);
+                    try {
+                        body = JSON.parse(response.body);
+                    } catch {
+                        body = response;
+                    }
+                } catch (e) {
+                    return reject(e);
                 }
-            } catch (e) {
-                return reject(e);
-            }
-            return err
-                ? reject(err)
-                : resolve(body);
-        }))
+                return resolve(body);
+            }));
     }
 
     return awsLambdaTask;
